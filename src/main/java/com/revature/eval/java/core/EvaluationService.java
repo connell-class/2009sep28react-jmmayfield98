@@ -1,8 +1,10 @@
 package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class EvaluationService {
 
@@ -31,7 +33,20 @@ public class EvaluationService {
 	 */
 	public String acronym(String phrase) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		String acronym = ""+ phrase.charAt(0);     
+		for(int i = 1; i < phrase.length(); i++) {
+			if(phrase.charAt(i) == ' ' || phrase.charAt(i) == '-') {
+				acronym += phrase.charAt(i+1);
+			}
+			
+		}
+		acronym = acronym.toUpperCase();
+		return acronym;
+//		System.out.println(arrOfPhrase);
+//		String splitPhrase = arrOfPhrase.toString();
+		
+//		String[] Acronym
+//		return null;
 	}
 
 	/**
@@ -85,17 +100,33 @@ public class EvaluationService {
 
 		public boolean isEquilateral() {
 			// TODO Write an implementation for this method declaration
+			if(sideOne == sideTwo && sideTwo == sideThree) {
+				return true;
+			} else {
 			return false;
+			}
 		}
 
 		public boolean isIsosceles() {
 			// TODO Write an implementation for this method declaration
+			if(sideOne == sideTwo && sideTwo != sideThree) {
+				return true;
+			} else if(sideTwo == sideThree && sideThree != sideOne) {
+				return true;
+			} else if(sideOne == sideThree && sideThree != sideTwo) {
+				return true;
+			} else {
 			return false;
+			}
 		}
 
 		public boolean isScalene() {
 			// TODO Write an implementation for this method declaration
+			if(sideOne != sideTwo && sideTwo != sideThree && sideOne != sideThree) {
+				return true;
+			}else {
 			return false;
+			}
 		}
 
 	}
@@ -117,7 +148,46 @@ public class EvaluationService {
 	 */
 	public int getScrabbleScore(String string) {
 		// TODO Write an implementation for this method declaration
-		return 0;
+		string = string.toLowerCase();
+		int charCount1 = 0;
+		int charCount2 = 0;
+		int charCount3 = 0;
+		int charCount4 = 0;
+		int charCount5 = 0;
+		int charCount8 = 0;
+		int charCount10 = 0;
+		for(int i = 0; i < string.length(); i++) {
+			char c = string.charAt(i);
+			if(c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || c == 'l' || c == 'n' || c == 'r' || c == 's' || c == 't') {
+				charCount1++;
+				
+			}
+			if(c == 'd' || c == 'g') {
+				charCount2++;
+				
+			}
+			if(c == 'b' || c == 'c' || c == 'm' || c == 'p') {
+				charCount3++;
+				
+			}
+			if(c == 'f' || c == 'h' || c == 'v' || c == 'w' || c == 'y') {
+				charCount4++;
+				
+			}
+			if(c == 'k') {
+				charCount5++;
+			
+			}
+			if(c == 'j' || c == 'x') {
+				charCount8++;
+				
+			}
+			if(c == 'q' || c == 'z') {
+				charCount10++;
+				
+			}
+		}
+		return charCount1 + charCount2*2 + charCount3*3 + charCount4*4 + charCount5*5 + charCount8*8 + charCount10*10;
 	}
 
 	/**
@@ -153,7 +223,26 @@ public class EvaluationService {
 	 */
 	public String cleanPhoneNumber(String string) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		StringBuilder number = new StringBuilder(string);
+		for(int i = 0; i < number.length(); i++) {
+			char c = number.charAt(i);
+			if(c == '(' || c == ')' || c ==' ' || c =='-' || c == '.') {
+				number.deleteCharAt(i);
+				i--;
+			}
+			if (Character.isLetter(number.charAt(i))) {
+				throw new IllegalArgumentException();
+			}
+		}
+		if (number.length()>11) {
+			throw new IllegalArgumentException();
+		}
+		
+		
+		
+		
+		return number.toString();
+//		return null;
 	}
 
 	/**
@@ -167,7 +256,27 @@ public class EvaluationService {
 	 */
 	public Map<String, Integer> wordCount(String string) {
 		// TODO Write an implementation for this method declaration
-		return null;
+//		int instance = 0;
+		Map<String, Integer> wordCount = new HashMap();
+//		String parts[] = string.split("[ , , , \n]");
+		Pattern pattern = Pattern.compile("[,\\s]\\s*");
+		String[] parts = pattern.split(string);
+		for (int i = 0; i < parts.length; i++) {
+//			System.out.println(parts[i]);
+			if(wordCount.containsKey(parts[i])) {
+				wordCount.replace(parts[i], wordCount.get(parts[i])+1);
+			}
+			else {
+				wordCount.put(parts[i], 1);
+			}
+//			wordCount.put(parts[i], instance);
+
+		}
+		for(Map.Entry pairEntry: wordCount.entrySet()) {
+			System.out.println(pairEntry.getKey() + ", " + pairEntry.getValue());
+		}
+		return wordCount;
+//		return null;
 	}
 
 	/**
@@ -340,7 +449,22 @@ public class EvaluationService {
 	 */
 	public int calculateNthPrime(int i) {
 		// TODO Write an implementation for this method declaration
+//		while (){
+//		if(isPrime(i)) {
+//			
+//		}
 		return 0;
+	}
+	public boolean isPrime(int j) {
+		if (j <= 1) {
+			return false;
+		}
+		for(int i = 2; i < Math.sqrt(j); i++ ) {
+			if (j%i == 0) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -506,9 +630,41 @@ public class EvaluationService {
 	 */
 	public boolean isLuhnValid(String string) {
 		// TODO Write an implementation for this method declaration
+		int sum = 0;
+		String revString = reverse(string);
+		for(int i = 0; i < revString.length(); i++) {
+			if (i == 0 ||i % 2 == 0) {
+				int x = revString.charAt(i)*2;
+				if(x > 9) {
+					int y = x-9;
+					revString.replace(revString.charAt(i), (char) y);
+				}else {
+					revString.replace(revString.charAt(i), (char) x);
+				}
+				
+				char c = revString.charAt(i);
+				if( Character.isDigit(c)) {
+					int b = Integer.parseInt(String.valueOf(c));
+					sum = sum+b;
+				System.out.println(sum);
+					int sumMod = sum % 10;
+					if(sumMod == 0) {
+						return true;
+					}
+					else {
+						return false;
+					}
+			}
+				
+				
+			}
+//			else if (Character.isLetter(string.charAt(i))) {
+//				return false;
+//			}
+		}
 		return false;
 	}
-
+	
 	/**
 	 * 20. Parse and evaluate simple math word problems returning the answer as an
 	 * integer.
@@ -538,6 +694,30 @@ public class EvaluationService {
 	 */
 	public int solveWordProblem(String string) {
 		// TODO Write an implementation for this method declaration
+//		Pattern pattern = Pattern.compile("[,\\s]\\s*");
+		String[] parts = string.split("[ , ?]");
+		for(int i = 0; i < parts.length; i++) {
+			if(parts[i].equals("plus")) {
+				int value = (Integer.valueOf(parts[i-1])+Integer.valueOf(parts[i+1]));
+//				System.out.println(value);
+				return value;
+			}
+			if(parts[i].equals("minus")) {
+					int value = (Integer.valueOf(parts[i-1])-Integer.valueOf(parts[i+1]));
+//					System.out.println(value);
+					return value;
+				}
+			if(parts[i].equals("multiplied")) {
+				int value = (Integer.valueOf(parts[i-1])*Integer.valueOf(parts[i+2]));
+//				System.out.println(value);
+				return value;
+			}
+			if(parts[i].equals("divided")) {
+				int value = (Integer.valueOf(parts[i-1])/Integer.valueOf(parts[i+2]));
+//				System.out.println(value);
+				return value;
+			}
+		}
 		return 0;
 	}
 
